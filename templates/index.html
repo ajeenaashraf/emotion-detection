@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classifier</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Folder</h2>
+        <form name='frm' id="folderForm" method='POST' action="{{ url_for('predict') }}" enctype='multipart/form-data' onsubmit="return validateFolder()">
+          <div class="form-group">
+            <div class="custom-file my-3">
+              <label for="select_files" class="custom-file-label" id="folderLabel">Select Folder</label>
+              <input type="file" id="select_files" name="select_files" multiple directory webkitdirectory mozdirectory onchange="updateFolderLabel()">
+            </div>
+          </div>
+          <input type="submit" name="btn" class='btn btn-primary' value="Upload">
+        </form>
+        <h2 class="mt-5">Upload Images</h2>
+        <form name='frm' id="imagesForm" method='POST' action="{{ url_for('predict') }}" enctype='multipart/form-data' onsubmit="return validateImages()">
+          <div class="form-group">
+            <div class="custom-file my-3">
+              <label for="manual_files" class="custom-file-label" id="imagesLabel">Select Images</label>
+              <input type="file" id="manual_files" name="manual_files" multiple onchange="updateImagesLabel()">
+            </div>
+          </div>
+          <input type="submit" name="btn" class='btn btn-primary' value="Upload">
+        </form>
+    </div>
+
+    <script>
+        function updateFolderLabel() {
+            var input = document.getElementById('select_files');
+            var label = document.getElementById('folderLabel');
+            var labelText = '';
+            if (input.files && input.files.length > 1) {
+                labelText = input.files.length + ' images selected';
+            } else if (input.files.length === 1) {
+                labelText = input.files[0].name;
+            }
+            label.innerText = labelText;
+        }
+
+        function updateImagesLabel() {
+            var input = document.getElementById('manual_files');
+            var label = document.getElementById('imagesLabel');
+            var labelText = '';
+            if (input.files && input.files.length > 1) {
+                labelText = input.files.length + ' images selected';
+            } else if (input.files.length === 1) {
+                labelText = input.files[0].name;
+            }
+            label.innerText = labelText;
+        }
+
+        function validateFolder() {
+            var input = document.getElementById('select_files');
+            if (input.files.length === 0) {
+                alert("Please select a folder.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateImages() {
+            var input = document.getElementById('manual_files');
+            if (input.files.length === 0) {
+                alert("Please select images to upload.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

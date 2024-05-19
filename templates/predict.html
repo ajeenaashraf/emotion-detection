@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="container mt-5">
+	<h2 class='display-3'>Predictions</h2>
+	{% for label, results in categorized_results.items() %}
+	  {% if results %}
+	  <h3>{{ label }}</h3>
+	  <div class="row">
+		{% for result in results %}
+		<div class="col-md-4">
+		  <div class="card mb-4">
+			<img src="{{ url_for('static', filename=result.marked_image_path.split('/')[-1]) }}" class="card-img-top" alt="{{ label }} Image">
+			<div class="card-body">
+			  <h5 class="card-title">{{ label }}</h5>
+			</div>
+		  </div>
+		</div>
+		{% endfor %}
+	  </div>
+	  {% endif %}
+	{% endfor %}
+  </div>
+  {% endblock %}
